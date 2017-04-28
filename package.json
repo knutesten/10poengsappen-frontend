@@ -1,10 +1,12 @@
 {
   "name": "10poengsappen-frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Gi dine team-medlemmer poeng Edit",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,24 @@
   "bugs": {
     "url": "https://github.com/netcompanyno/10poengsappen-frontend/issues"
   },
-  "homepage": "https://github.com/netcompanyno/10poengsappen-frontend#readme"
+  "homepage": "https://github.com/netcompanyno/10poengsappen-frontend#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.4.0",
+    "css-loader": "^0.28.0",
+    "html-webpack-plugin": "^2.28.0",
+    "node-sass": "^4.5.2",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "dependencies": {
+    "rxjs": "^5.3.0",
+    "vue": "^2.3.0",
+    "vue-loader": "^12.0.2",
+    "vuex": "^2.3.1",
+    "whatwg-fetch": "^2.0.3"
+  }
 }
