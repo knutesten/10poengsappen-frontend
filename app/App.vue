@@ -1,6 +1,6 @@
 <template>
     <div id='app'>
-        Hello, Vue! U r cool and stuff..!
+        {{ team.name }}
         <app-userlist :users='users'></app-userlist>
     </div>
 </template>
@@ -19,9 +19,12 @@
 
     export default {
         computed: {
-          users() {
-              return this.$store.state.users
-          }
+            users() {
+                return this.$store.state.users
+            },
+            team() {
+                return this.$store.state.teams[0] || {}
+            }
         },
         components: {
             'app-userlist': Userlist

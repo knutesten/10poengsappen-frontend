@@ -2,8 +2,9 @@
     <div class='user'>
         <span class='name'>{{ user.name }}</span>
         <span class='points'>{{ user.points }}</span>
-        <div class='reward-points-container'>
+        <div v-if='loggedInUser.id !== user.id' class='reward-points-container'>
             <span class='reward-points' @click='rewardPoints(user)'>+</span>
+            <button class='undo-btn' v-if="user.allowUndo">Undo</button>
         </div>
     </div>
 </template>
@@ -13,9 +14,14 @@
         props: ['user'],
             methods: {
             rewardPoints(user) {
-                this.$store.dispatch('rewardPoints', user.name)
+                this.$store.dispatch('rewardPoints', user)
                 }
-            }
+            },
+            computed: {
+                loggedInUser() {
+                    return this.$store.state.user
+                }
+            },
     }
 </script>
 
@@ -43,6 +49,12 @@
                 &:hover {
                     opacity: 1;
                  }
+            }
+
+            .undo-btn {
+                cursor: pointer;
+                position: absolute;
+                left: 1rem;
             }
         }
     }

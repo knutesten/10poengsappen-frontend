@@ -4,11 +4,20 @@ import {fetchGet} from 'fetchBuilder'
 import App from './App.vue'
 import {store} from './store.js'
 
-new Vue({
-	el: '#app',
-	store,
-	beforeMount () {
-		this.$store.dispatch('getUsers')
-	},
-	render: h => h(App)
+fetchGet('/api/auth/session')
+	.then((user) => {
+	console.log('user', user)
+	if (user) {
+		store.commit('setUser', user)
+		new Vue({
+			el: '#app',
+			store,
+			beforeMount () {
+				this.$store.dispatch('getTeams')
+			},
+			render: h => h(App)
+		})
+	} else {
+		window.location = 'api/auth/login'
+	}
 })

@@ -1,39 +1,62 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {fetchGet} from './utils/fetchBuilder'
+import {fetchGet, fetchPost} from 'fetchBuilder'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
 	state: {
-		users: [
-			{name: 'Geir', points: 132},
-			{name: 'Johanne', points: 176},
-			{name: 'Knut', points: 12},
-			{name: 'Torkjel', points: 34},
-			{name: 'Aleksi', points: 345},
-			{name: 'Vegard', points: 98},
-		]
+		user: {},
+		users: [],
+		teams: []
 	},
 	mutations: {
-		rewardPoints(state, userName) {
-			console.log(userName)
-			const user = state.users.find(user => user.name === userName)
+		rewardPoints(state, userId) {
+			const user = state.users.find(user => user.id === userId)
 			user.points += 10
+		},
+		setAllowUndo(state, userId) {
+			const user = state.users.find(user => user.id === userId)
+			user.allowUndo = true
+		},
+		setDisallowUndo(state, userId) {
+			const user = state.users.find(user => user.id === userId)
+			user.allowUndo = false
 		},
 		setUsers(state, users) {
 			state.users = users
+		},
+		setUser(state, user) {
+			state.user = user
 		}
 	},
 	actions: {
-		rewardPoints(context, userName) {
-			context.commit('rewardPoints', userName)
+		rewardPoints({commit, state, dispatch}, user) {
+			fetchPost('api/points', {
+				giverId: state.user.id,
+				receiverId: user.id,
+				teamId: 1,
+				amount: 10
+			})
+				.then(() => {
+					commit('rewardPoints', user.id)
+					// commit('setAllowUndo', user.id)
+					// dispatch('setDisallowUndo', user.id)
+				})
 		},
-		getUsers(context) {
-			// fetchGet('/api/auth/login').then((users) => {
-			// 	                  context.commit('setUsers', [{name: 'Knut', points: 1337}])
-			//                   }
-			// )
+		setDisallowUndo({commit}, userId) {
+			setTimeout(() => {
+				commit('setDisallowUndo', userId)
+				Vue.set()
+			}, 2000)
+		},
+		getTeams(context) {
+			fetchGet('/api/teams/1').then((prmsUsers) => {
+				                              console.log(prmsUsers)
+				                              console.log(prmsUsers[0])
+				                              context.commit('setUsers', prmsUsers)
+			                              }
+			)
 		}
 	}
 })
