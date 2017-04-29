@@ -11,52 +11,57 @@ export const store = new Vuex.Store({
 		teams: []
 	},
 	mutations: {
-		rewardPoints(state, userId) {
+		rewardPoints(state, {userId, points}) {
 			const user = state.users.find(user => user.id === userId)
-			user.points += 10
+			user.points += points
+			user.showPointsInput = false
 		},
-		setAllowUndo(state, userId) {
+		setAllowUndo(state, {userId, allowUndo}) {
 			const user = state.users.find(user => user.id === userId)
-			user.allowUndo = true
-		},
-		setDisallowUndo(state, userId) {
-			const user = state.users.find(user => user.id === userId)
-			user.allowUndo = false
-		},
-		setUsers(state, users) {
-			state.users = users
+			user.allowUndo = allowUndo
 		},
 		setUser(state, user) {
 			state.user = user
+		},
+		showPointsInput(state, userId) {
+			console.log('show')
+			const user = state.users.find(user => user.id === userId)
+			user.showPointsInput = !user.showPointsInput
+		},
+		getTeams(state, teams) {
+			state.teams = teams
+		},
+		fetchTeam(state, team) {
+			state.users = team.map(user => Object.assign({}, user, {showPointsInput: false, allowUndo: false}))
 		}
 	},
 	actions: {
-		rewardPoints({commit, state, dispatch}, user) {
+		rewardPoints({commit, state, dispatch}, {user, points}) {
 			fetchPost('api/points', {
 				giverId: state.user.id,
 				receiverId: user.id,
 				teamId: 1,
-				amount: 10
+				amount: points
 			})
 				.then(() => {
-					commit('rewardPoints', user.id)
-					// commit('setAllowUndo', user.id)
-					// dispatch('setDisallowUndo', user.id)
+					commit('rewardPoints', {userId: user.id, points})
+					commit('setAllowUndo', {userId: user.id, allowUndo: true})
+					setTimeout(() => {
+						commit('setAllowUndo', {userId: user.id, allowUndo: false})
+					}, 10000)
 				})
 		},
-		setDisallowUndo({commit}, userId) {
-			setTimeout(() => {
-				commit('setDisallowUndo', userId)
-				Vue.set()
-			}, 2000)
-		},
 		getTeams(context) {
-			fetchGet('/api/teams/1').then((prmsUsers) => {
-				                              console.log(prmsUsers)
-				                              console.log(prmsUsers[0])
-				                              context.commit('setUsers', prmsUsers)
-			                              }
-			)
+			fetchGet('/api/teams')
+				.then((teams) => {
+					context.commit('getTeams', teams)
+				})
+		},
+		fetchTeam(context, teamId) {
+			fetchGet(`/api/teams/${teamId}`)
+				.then((team) => {
+					context.commit('fetchTeam', team)
+				})
 		}
 	}
 })

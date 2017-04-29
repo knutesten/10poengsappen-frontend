@@ -1,13 +1,12 @@
 <template>
     <div id='app'>
-        {{ team.name }}
-        <app-userlist :users='users'></app-userlist>
+        <app-navbar></app-navbar>
+        <router-view></router-view>
     </div>
 </template>
 
 <style>
     #app {
-        font-size: 16pt;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -15,7 +14,8 @@
 </style>
 
 <script>
-    import Userlist from './components/Userlist.vue'
+    import Team from './components/Team.vue'
+    import Navbar from './components/Navbar.vue'
 
     export default {
         computed: {
@@ -27,7 +27,8 @@
             }
         },
         components: {
-            'app-userlist': Userlist
+            'app-team': Team,
+            'app-navbar': Navbar
         }
     }
 </script>
