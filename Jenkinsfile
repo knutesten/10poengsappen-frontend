@@ -5,9 +5,11 @@ node {
 
   stage('Build') {
     sh 'npm install'
+    sh 'npm build'
   }
 
-  stage('Test') {
-    sh 'npm test'
-  }
+ // No tests yet
+ // stage('Test') {
+ //   sh 'npm test'
+ // }
 }
