@@ -1,8 +1,28 @@
 :global {
 	html, body {
 		font-size: 16pt;
-		display: flex;
 		font-family: 'Roboto', Arial, sans-serif;
+		color: cornflowerblue;
+	}
+
+	html {
+		display: flex;
 		justify-content: center;
+
+		body {
+			width: 80%;
+		}
+	}
+
+	button {
+		cursor: pointer;
+		border-radius: 2rem;
+		border: 1px solid cornflowerblue;
+		background-color: transparent;
+		color: cornflowerblue;
+
+		&:focus {
+			outline: none;
+		}
 	}
 }
