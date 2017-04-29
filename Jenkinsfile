@@ -8,7 +8,7 @@ node {
     sh 'npm build'
 
     if (env.BRANCH_NAME == 'master') {
-      step([$class: 'ArtifactArchiver', artifacts: 'dist/*', fingerprint: true])
+      step([$class: 'ArtifactArchiver', artifacts: 'dist/*.*', fingerprint: true])
     }
   }
 
