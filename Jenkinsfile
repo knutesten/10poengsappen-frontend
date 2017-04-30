@@ -5,7 +5,11 @@ node {
 
   stage('Build') {
     sh 'npm install'
-    sh 'npm build'
+    sh 'npm run build'
+
+    if (env.BRANCH_NAME == 'master') {
+      step([$class: 'ArtifactArchiver', artifacts: 'dist/**/*', fingerprint: true])
+    }
   }
 
  // No tests yet
