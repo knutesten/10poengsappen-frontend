@@ -1,9 +1,13 @@
 <template>
-    <div>
+    <div class='team'>
         {{ team.name }}
         <div class='userlist'>
+            <div class='userlist-header'>
+                <div class='header-cell'>Name</div>
+                <div class='header-cell'>Points</div>
+            </div>
             <div v-for='user in users'>
-                <app-user :user='user'></app-user>
+                <app-user :user='user' />
             </div>
         </div>
     </div>
@@ -35,7 +39,16 @@
     }
 </script>
 
-<style scoped>
-    .userlist {
+<style lang='scss' scoped>
+
+        .userlist-header {
+            background-color: #F6F6FA;
+            display: flex;
+            padding: 0.5rem;
+
+        .header-cell {
+                flex-grow: 1;
+                text-align: center;
+            }
         }
 </style>

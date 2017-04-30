@@ -36,7 +36,7 @@
         a {
 
             cursor: pointer;
-            color: lightslategray;
+            color: cornflowerblue;
             padding: 0.1rem 0.5rem;
             text-decoration: none;
 
@@ -50,7 +50,7 @@
         }
 
         .router-link-active {
-            background-color: whitesmoke;
+            background-color: #F6F6FA;
             text-decoration: underline;
             font-weight:bold;
         }

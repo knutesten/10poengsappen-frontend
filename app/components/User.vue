@@ -8,8 +8,8 @@
                     <button v-if='user.allowUndo' class='btn-undo'>Undo</button>
                 </div>
                 <div v-if='user.showPointsInput' class='give-points-input-container'>
-                    <input autofocus placeholder='1-10' @keyup.enter='rewardPoints(user, $event)'/>
-                    <button class='btn-give-points' @click='rewardPoints(user, $event)'>></button>
+                    <input autofocus placeholder='1-10' ref='pointsInput' @keyup.enter='rewardPoints(user)'/>
+                    <button class='btn-give-points' @click='rewardPoints(user)'>></button>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 this.$store.commit('showPointsInput', userId)
             },
             rewardPoints(user, event) {
-                this.$store.dispatch('rewardPoints', {user, points: parseInt(event.target.value || 0)})
+                this.$store.dispatch('rewardPoints', {user, points: parseInt(this.$refs.pointsInput.value || 0)})
             }
         },
         computed: {

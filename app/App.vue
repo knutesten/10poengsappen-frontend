@@ -1,15 +1,23 @@
 <template>
     <div id='app'>
         <app-navbar></app-navbar>
-        <router-view></router-view>
+        <router-view class='app-content'></router-view>
     </div>
 </template>
 
-<style>
+<style lang='scss' scoped>
     #app {
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .app-content {
+        padding-top: 2rem;
+        @media (max-width: 992px) {
+            width: 100%;
+        }
+        width: 70%;
     }
 </style>
 
