@@ -46,7 +46,7 @@
         },
         computed: {
             teams() {
-                return this.$store.state.teams.concat(this.$store.state.teams).concat(this.$store.state.teams)
+                return this.$store.state.teams
             }
         },
         methods: {
