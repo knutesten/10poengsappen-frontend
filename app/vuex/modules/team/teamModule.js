@@ -1,16 +1,17 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import {fetchGet, fetchPost} from 'fetchBuilder'
+import {fetchPost, fetchGet} from 'fetchBuilder'
 
-Vue.use(Vuex)
-
-export const store = new Vuex.Store({
+export default {
+	namespaced: true,
 	state: {
-		user: {},
 		users: [],
-		teams: []
+		team: {
+
+		}
 	},
 	mutations: {
+		fetchTeam(state, team) {
+			state.users = team.map(user => Object.assign({}, user, {showPointsInput: false, allowUndo: false}))
+		},
 		rewardPoints(state, {userId, points}) {
 			const user = state.users.find(user => user.id === userId)
 			user.points += points
@@ -20,25 +21,15 @@ export const store = new Vuex.Store({
 			const user = state.users.find(user => user.id === userId)
 			user.allowUndo = allowUndo
 		},
-		setUser(state, user) {
-			state.user = user
-		},
 		showPointsInput(state, userId) {
-			console.log('show')
 			const user = state.users.find(user => user.id === userId)
 			user.showPointsInput = !user.showPointsInput
-		},
-		getTeams(state, teams) {
-			state.teams = teams
-		},
-		fetchTeam(state, team) {
-			state.users = team.map(user => Object.assign({}, user, {showPointsInput: false, allowUndo: false}))
 		}
 	},
 	actions: {
-		rewardPoints({commit, state, dispatch}, {user, points}) {
+		rewardPoints({commit, rootState}, {user, points}) {
 			fetchPost('api/points', {
-				giverId: state.user.id,
+				giverId: rootState.loggedInUser.id,
 				receiverId: user.id,
 				teamId: 1,
 				amount: points
@@ -51,17 +42,14 @@ export const store = new Vuex.Store({
 					}, 10000)
 				})
 		},
-		getTeams(context) {
-			fetchGet('/api/teams')
-				.then((teams) => {
-					context.commit('getTeams', teams)
-				})
-		},
-		fetchTeam(context, teamId) {
+		fetchTeam({commit}, teamId) {
 			fetchGet(`/api/teams/${teamId}`)
 				.then((team) => {
-					context.commit('fetchTeam', team)
+					commit('fetchTeam', team)
 				})
+		},
+		showPointsInput({commit}, userId) {
+			commit('showPointsInput', userId)
 		}
 	}
-})
+}

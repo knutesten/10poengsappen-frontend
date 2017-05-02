@@ -4,7 +4,7 @@ import {fetchGet} from 'fetchBuilder'
 import App from './App.vue'
 import Home from './components/Home.vue'
 import Team from './components/Team.vue'
-import {store} from './store.js'
+import {store} from './vuex/store.js'
 import VueRouter from 'vue-router'
 import './styles/main.scss'
 
@@ -27,9 +27,6 @@ fetchGet('/api/auth/session')
 			el: '#app',
 			store,
 			router,
-			beforeMount () {
-				this.$store.dispatch('getTeams')
-			},
 			render: h => h(App)
 		})
 	} else {

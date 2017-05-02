@@ -8,8 +8,12 @@
                     <button v-if='user.allowUndo' class='btn-undo'>Undo</button>
                 </div>
                 <div v-if='user.showPointsInput' class='give-points-input-container'>
-                    <input autofocus placeholder='1-10' ref='pointsInput' @keyup.enter='rewardPoints(user)'/>
-                    <button class='btn-give-points' @click='rewardPoints(user)'>></button>
+                    <input
+                            autofocus
+                            placeholder='1-10'
+                            ref='pointsInput'
+                            @keyup.enter='rewardPointsHandler(user)'
+                    />
                 </div>
             </div>
         </div>
@@ -18,28 +22,35 @@
 </template>
 
 <script>
+	import {mapActions} from 'vuex'
+
 	export default {
 		props: ['user'],
-		methods: {
-			showPointsInput(userId) {
-				this.$store.commit('showPointsInput', userId)
+		methods: Object.assign(
+			{
+				rewardPointsHandler (user) {
+					const points = this.$refs.pointsInput.value
+                    this.rewardPoints({user, points: parseInt(!isNaN(points) ? parseInt(points) : 0)})
+				}
 			},
-			rewardPoints(user, event) {
-				this.$store.dispatch('rewardPoints', {user, points: parseInt(this.$refs.pointsInput.value || 0)})
-			}
-		},
+			mapActions('team', [
+				'showPointsInput',
+				'rewardPoints'
+			])),
 		computed: {
 			loggedInUser() {
-				return this.$store.state.user
-			},
-			showInput() {
-				return this.$store.state.showPointsInput
+				return this.$store.state.loggedInUser
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+
+    .points-tooltip {
+        position: fixed;
+    }
+
     .user {
         display: flex;
         align-items: center;
@@ -100,6 +111,7 @@
             }
 
             .give-points-input-container {
+                margin-left: 0.4rem;
                 left: -100px;
                 display: flex;
 

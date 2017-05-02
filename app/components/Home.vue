@@ -38,7 +38,7 @@
 </style>
 
 <script>
-    import {fetchGet} from 'fetchBuilder'
+    import {mapActions} from 'vuex'
 
     export default {
         created () {
@@ -46,13 +46,11 @@
         },
         computed: {
             teams() {
-                return this.$store.state.teams
+                return this.$store.state.home.teams
             }
         },
-        methods: {
-            fetchTeams() {
-                this.$store.dispatch('getTeams')
-            }
-        }
+        methods: mapActions('home', [
+	        'fetchTeams'
+        ])
     }
 </script>
