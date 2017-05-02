@@ -11,25 +11,25 @@
 </template>
 
 <script>
-    import {fetchGet} from 'fetchBuilder'
+	import {fetchGet} from 'fetchBuilder'
 
-    export default {
-        methods: {
-            signOut() {
-                alert('placeholder action for sign out!')
+	export default {
+		methods: {
+			signOut() {
+				alert('placeholder action for sign out!')
 //                fetchGet('api/auth/logout')
 //                        .then(() => {
 ////                            this.$router.push('')
 //                        })
-            }
-        }
-    }
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
     .navbar {
         width: 100%;
-        display:flex;
+        display: flex;
         justify-content: flex-end;
         font-size: 14pt;
 
@@ -42,17 +42,17 @@
 
             &:hover {
                 text-decoration: underline;
-             background-color: #F6F6FA;
-             }
+                background-color: #F6F6FA;
+            }
 
             &:not(:last-of-type) {
                 border-right: 0.1rem solid dimgray;
-             }
+            }
         }
 
         .router-link-active {
             text-decoration: underline;
-            font-weight:bold;
+            font-weight: bold;
         }
     }
 </style>
