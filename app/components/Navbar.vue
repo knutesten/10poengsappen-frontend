@@ -42,6 +42,7 @@
 
             &:hover {
                 text-decoration: underline;
+             background-color: #F6F6FA;
              }
 
             &:not(:last-of-type) {
@@ -50,7 +51,6 @@
         }
 
         .router-link-active {
-            background-color: #F6F6FA;
             text-decoration: underline;
             font-weight:bold;
         }
